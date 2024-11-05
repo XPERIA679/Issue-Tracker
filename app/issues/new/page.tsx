@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import validationschema from '@/app/validationSchema';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 
 type IssueForm = z.infer<typeof validationschema>;
 
@@ -20,6 +21,7 @@ const NewsIssuePage = () => {
     resolver: zodResolver(validationschema)
   });  
   const [error, setError] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   return (
     <div className='max-w-xl'>
@@ -34,11 +36,13 @@ const NewsIssuePage = () => {
       <form className='space-y-3'
           onSubmit={handleSubmit(async (data) => { 
           try {
-              await axios.post('/api/issues', data);
-              router.push('/issues');
+            setSubmitting(true);
+            await axios.post('/api/issues', data);
+            router.push('/issues');
               
           } catch (error) {
-              setError('An Unexpected Error Occured.')
+            setSubmitting(false);
+            setError('An Unexpected Error Occured.')
   
           }  
       })}>
@@ -48,7 +52,7 @@ const NewsIssuePage = () => {
       <ErrorMessage>{errors.title?.message}</ErrorMessage>
       <Controller name='description' control={control} render={({ field }) => <SimpleMDE placeholder='Description' {...field}/>} />
       <ErrorMessage>{errors.description?.message}</ErrorMessage>
-      <Button>Submit Issue</Button>
+      <Button disabled={isSubmitting}>Submit Issue {isSubmitting && <Spinner />} </Button>
       </form>
     </div>
   )
