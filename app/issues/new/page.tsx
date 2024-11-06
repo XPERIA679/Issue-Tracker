@@ -1,6 +1,5 @@
 'use client';
-import ErrorMessage from '@/app/components/ErrorMessage';
-import Spinner from '@/app/components/Spinner';
+import { ErrorMessage, Spinner } from '@/app/components';
 import validationschema from '@/app/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
