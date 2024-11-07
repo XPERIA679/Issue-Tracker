@@ -28,7 +28,10 @@ const IssueForm = ({ issue }: { issue?: Issue}) => {
   const onSubmit = handleSubmit(async (data) => { 
       try {
         setSubmitting(true);
-        await axios.post('/api/issues', data);
+        if (issue)
+          await axios.patch('/api/issues/' + issue.id, data);
+        else
+          await axios.post('/api/issues', data);
         router.push('/issues');
           
       } catch (error) {
@@ -54,7 +57,9 @@ const IssueForm = ({ issue }: { issue?: Issue}) => {
       <ErrorMessage>{errors.title?.message}</ErrorMessage>
       <Controller name='description' control={control} defaultValue={issue?.description} render={({ field }) => <SimpleMDE placeholder='Description' {...field}/>} />
       <ErrorMessage>{errors.description?.message}</ErrorMessage>
-      <Button disabled={isSubmitting}>Submit Issue {isSubmitting && <Spinner />} </Button>
+      <Button disabled={isSubmitting}> { issue ? 'Update' : 'Submit Issue' }{' '}
+        {isSubmitting && <Spinner />}
+      </Button>
       </form>
     </div>
   )
