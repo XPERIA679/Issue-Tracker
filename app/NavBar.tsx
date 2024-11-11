@@ -58,7 +58,7 @@ const AuthStatus = () => {
     {status === 'authenticated' &&
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Avatar size="3" radius='full' className='cursor-pointer' src={session.user!.image!} fallback="Profile" />
+          <Avatar size="3" radius='full' className='cursor-pointer' referrerPolicy='no-referrer' src={session.user!.image!} fallback="Profile" />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>
