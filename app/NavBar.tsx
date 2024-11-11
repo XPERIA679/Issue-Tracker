@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
 import { Spinner } from './components';
-import { Box, Container, Flex } from '@radix-ui/themes';
+import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes';
 
 const NavBar = () => {
   const currentPage = usePathname();
@@ -39,10 +39,26 @@ const NavBar = () => {
           <Box>
             {status === 'loading' && <Spinner />}
             {status === 'authenticated' &&
-              <div>
-                {session.user!.name}
-                <Link href="/api/auth/signout" className='ml-5'>Sign Out</Link>
-              </div>}
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar size="3" radius='full' className='cursor-pointer' src={session.user!.image!} fallback="Profile"/>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                <DropdownMenu.Label>
+                  <Text size="2">
+                    {session.user!.email}
+                  </Text>
+                  </DropdownMenu.Label>
+                <DropdownMenu.Item>
+                  <Link href="/api/auth/signout">Sign Out</Link>
+                </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+              // <div>
+              //   {session.user!.name}
+              //   <Link href="/api/auth/signout" className='ml-5'>Sign Out</Link>
+              // </div>
+            }
             {status === 'unauthenticated' && <Link href="/api/auth/signin" className='mr-5'> Sign In </Link>}
           </Box>
         </Flex>
