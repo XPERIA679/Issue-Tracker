@@ -1,6 +1,7 @@
 import { Table } from '@radix-ui/themes';
 import { Skeleton } from '@/app/components';
 import IssueActionBar from './IssueActionBar';
+import IssueStatusFilter from './IssueStatusFilter';
 
 const LoadingIssuesPage = () => {
   const issues = [1, 2, 3, 4, 5];
@@ -8,6 +9,7 @@ const LoadingIssuesPage = () => {
   return (
     <div>
     <IssueActionBar />
+    <IssueStatusFilter />
     <Table.Root variant='surface'>
         <Table.Header>
           <Table.Row>
