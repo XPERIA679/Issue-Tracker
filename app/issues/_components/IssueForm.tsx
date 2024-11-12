@@ -6,19 +6,19 @@ import "easymde/dist/easymde.min.css";
 import { Issue } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import SimpleMDE from 'react-simplemde-editor';
-import validationschema from '@/app/validationSchema';
+import { issueSchema } from '@/app/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { ErrorMessage, Spinner } from '@/app/components';
 import { Button, Callout, TextField } from '@radix-ui/themes';
 
-type IssueFormData = z.infer<typeof validationschema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue}) => {
   const router = useRouter();  
   const {register, control, handleSubmit, formState: { errors }} = useForm<IssueFormData>({
-    resolver: zodResolver(validationschema)
+    resolver: zodResolver(issueSchema)
   });  
   const [error, setError] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
