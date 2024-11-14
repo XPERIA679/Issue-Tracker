@@ -7,6 +7,7 @@ import authOptions from '@/app/auth/authOptions';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import DeleteIssueButton from './DeleteIssueButton';
 import AssigneeSelect from './AssigneeSelect';
+import { describe } from 'node:test';
 
 
 interface Props {
@@ -37,6 +38,15 @@ const IssueDetailsPage = async ({ params }: Props) => {
       </Box>}
     </Grid>
   )
+}
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) }})
+
+  return {
+    title: issue?.title,
+    description: "Details of Issue " + issue?.id
+  }
 }
 
 export default IssueDetailsPage
